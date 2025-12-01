@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 
 import time
+from PIL import Image
 
 WIDTH = 101
 HEIGHT = 103
@@ -96,12 +97,24 @@ def part2(robots:list[tuple[int,int,int,int]]):
         else:
             robo_map[(px,py)].append((vx,vy))
 
-    for sec in range(TIME * 100):
+    offset = 0
+    IMAGE_WIDTH = GRID_WIDTH * (GRID_HEIGHT - offset)
+    IMAGE_HEIGHT = GRID_WIDTH * ( GRID_HEIGHT + offset)
+
+    img = Image.new("1", (IMAGE_WIDTH, IMAGE_HEIGHT), (0))
+    for sec in range(GRID_WIDTH * GRID_HEIGHT):
         new_map:dict[tuple[int,int],list[tuple[int,int]]] = dict()
         for px,py in robo_map:
             for vx,vy in robo_map[(px,py)]:
                 new_px = (px + vx) % GRID_WIDTH
                 new_py = (py + vy) % GRID_HEIGHT
+
+                try:
+                    img.putpixel((new_px + ((sec % (GRID_HEIGHT - offset)) * GRID_WIDTH) , new_py + ((sec // (GRID_HEIGHT - offset)) * GRID_HEIGHT)), (1))
+                except IndexError:
+                    print(f"Sec {sec} : {(new_px, new_py)} -> {(new_px + ((sec % (GRID_HEIGHT - offset)) * GRID_WIDTH) , new_py + ((sec // (GRID_HEIGHT - offset)) * GRID_HEIGHT))}")
+                    img.show()
+                    exit()
 
                 if (new_px,new_py) not in new_map:
                     new_map[(new_px,new_py)] = [(vx,vy)]
@@ -116,14 +129,17 @@ def part2(robots:list[tuple[int,int,int,int]]):
             for _ in range(GRID_HEIGHT):
                 plot.append(EMPTY)
 
+
             for px, py in robo_map:
                 line = plot[py]
                 line = line[:px] + "#" + line[px+1:]
                 plot[py] = line
 
-            print(f"\nSecond: {sec + 1}")
+            print(f"\nSecond: {sec}")
             for line in plot:
                 print(line)
+
+    img.show()
 
 def detect_tree(robo_map):
     # Detect some sort of tree

@@ -1,26 +1,30 @@
 #!/bin/python3
+import time
 
 TEST=""""""
+DATA = ""
 
-INPUT = ""
+def part1(input):
 
-
-def part1(input:str):
-
-    print(f"Part 1: {None}" )
+    return None
 
 
 
-def part2(input:str):
+def part2(input):
 
-    print(f"Part 2: {None}" )
+
+    return None
 
 
 
 if __name__ == "__main__":
     with open("input.txt") as file:
-        INPUT = file.read().strip()
+        DATA = file.read().strip()
 
-    part1(INPUT)
+    INPUT_DATA = TEST
 
-    part2(INPUT)
+    start_time = time.time()
+    print(f"Part 1: {part1(INPUT_DATA)} - {time.time() - start_time:.6f}s\n")
+
+    start_time = time.time()
+    print(f"Part 2: {part2(INPUT_DATA)} - {time.time() - start_time:.6f}s")

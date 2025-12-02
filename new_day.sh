@@ -16,10 +16,10 @@ if [ -f "${DIR}/day${DAY}.py" ]; then
     exit 1
 fi
 
-# mkdir -p "$DIR"
+mkdir -p "$DIR"
 
-# cp "${ROOT}/template.py" "${DIR}/day${DAY}.py"
+cp "${ROOT}/template.py" "${DIR}/day${DAY}.py"
 
-# chmod +x "${DIR}/day${DAY}.py"
+chmod +x "${DIR}/day${DAY}.py"
 
-# bash "${ROOT}/pull_input.sh" "${DAY}"
+bash "${ROOT}/pull_input.sh" "${DAY}"

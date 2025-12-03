@@ -4,4 +4,6 @@ env
 venv
 .venv
 
+input.txt
+*.input
 cookie.txt

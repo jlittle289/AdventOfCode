@@ -66,11 +66,11 @@ def part2(rolls:list):
             if found < 4:
                 movable += 1
                 removed.append((y,x))
+                cur_table.remove((y,x))
 
         if not removed:
             break
 
-        cur_table = [roll for roll in cur_table if roll not in removed]
         touched = set([cell for roll in removed for cell in get_checks(*roll) if cell in cur_table])
 
     return movable

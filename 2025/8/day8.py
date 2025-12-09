@@ -3,24 +3,18 @@ import time
 import math
 import networkx as nx
 
-def euc_distance(one, two) -> float:
+def euc_distance(one, two):
     x1,y1,z1 = one
     x2,y2,z2 = two
-    return math.sqrt((x1-x2)**2 + (y1-y2)**2 + (z1-z2)**2)
+    return (x1-x2)**2 + (y1-y2)**2 + (z1-z2)**2
 
 def part1(points:list[tuple], num_con):
 
-    points_list = points.copy()
-
-    distances = []
-    for _ in range(len(points_list)-1):
-        point = points_list.pop()
-        distances.extend([(point, sub_point) for sub_point in points_list])
-
-    distances.sort(key=lambda x:euc_distance(x[0], x[1]), reverse=True)
-
+    distances = [(points[i], sub_point) for i in range(len(points)-1) for sub_point in points[i+1:]]
+    distances.sort(key=lambda x:euc_distance(x[0], x[1]))
+    
     G = nx.Graph()
-    for u,v in distances[-num_con:]:
+    for u,v in distances[:num_con]:
         G.add_edge(u,v)
 
     return math.prod(sorted(map(len,nx.connected_components(G)))[-3:])
@@ -28,16 +22,9 @@ def part1(points:list[tuple], num_con):
 def part2(points:list[tuple], num_con):
 
     G = nx.Graph()
-    for u in points:
-        G.add_node(u)
+    G.add_nodes_from(points)
 
-    points_list = points.copy()
-
-    distances = []
-    for _ in range(len(points_list)-1):
-        point = points_list.pop()
-        distances.extend([(point, sub_point) for sub_point in points_list])
-
+    distances = [(points[i], sub_point) for i in range(len(points)-1) for sub_point in points[i+1:]]
     distances.sort(key=lambda x:euc_distance(x[0], x[1]))
 
     for u,v in distances[:num_con]:
